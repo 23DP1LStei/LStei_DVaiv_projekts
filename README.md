@@ -1,1 +1,1 @@
-# LStei_DVaiv_projekts
+Projekts Sonium
