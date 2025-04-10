@@ -1,8 +1,8 @@
 package utils;
 
-
 import java.io.FileWriter;
 import java.io.IOException;
+import models.Rating;
 import models.User;
 
 public class CSVWriter {
@@ -15,4 +15,14 @@ public class CSVWriter {
         }
     }
 
+    public static void writeRating(String filename, Rating rating) {
+        try (FileWriter writer = new FileWriter(filename, true)) {
+            writer.append(rating.getUserId()).append(",")
+                  .append(rating.getAlbumId()).append(",")
+                  .append(String.valueOf(rating.getRating())).append(",")
+                  .append(String.valueOf(rating.isListened())).append("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
