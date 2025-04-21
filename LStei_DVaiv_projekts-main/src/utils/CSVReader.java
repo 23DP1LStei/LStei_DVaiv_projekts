@@ -20,7 +20,6 @@ public class CSVReader {
                 albums.add(new Album(parts[0], parts[1], parts[2], parts[3]));
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return albums;
     }
@@ -35,7 +34,6 @@ public class CSVReader {
                 users.add(new User(parts[0], parts[1]));
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return users;
     }
@@ -54,7 +52,6 @@ public class CSVReader {
                 ratings.add(new Rating(userId, albumId, rating, listened));
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return ratings;
     }
