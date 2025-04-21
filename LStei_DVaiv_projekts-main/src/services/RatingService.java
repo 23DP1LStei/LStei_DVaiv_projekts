@@ -7,10 +7,10 @@ import utils.CSVReader;
 import utils.CSVWriter;
 
 public class RatingService {
-    private List<Rating> ratings;
+    private final List<Rating> ratings;
 
     public RatingService() {
-        this.ratings = CSVReader.readRatings("ratings.csv");
+        this.ratings = CSVReader.readRatings("LStei_DVaiv_projekts-main\\src\\databases\\ratings.csv");
     }
 
     public void markAsListened(String userId, String albumId) {
@@ -20,7 +20,7 @@ public class RatingService {
         } else {
             Rating rating = new Rating(userId, albumId, 0, true);
             ratings.add(rating);
-            CSVWriter.writeRating("ratings.csv", rating);
+            CSVWriter.writeRating("LStei_DVaiv_projekts-main\\src\\databases\\ratings.csv", rating);
         }
     }
 
@@ -32,7 +32,7 @@ public class RatingService {
         } else {
             Rating rating = new Rating(userId, albumId, score, true);
             ratings.add(rating);
-            CSVWriter.writeRating("ratings.csv", rating);
+            CSVWriter.writeRating("LStei_DVaiv_projekts-main\\src\\databases\\ratings.csv", rating);
         }
     }
 
