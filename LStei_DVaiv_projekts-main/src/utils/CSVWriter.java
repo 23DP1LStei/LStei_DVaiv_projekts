@@ -1,28 +1,30 @@
-package utils;
+package services;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import models.Rating;
+import java.util.List;
+import java.util.UUID;
 import models.User;
+import utils.CSVReader;
+import utils.CSVWriter;
 
-public class CSVWriter {
+public class UserService {
+    private final String USER_FILE = "LStei_DVaiv_projekts-main\\src\\databases\\users.csv";
 
-    public static void writeUser(String filename, User user) {
-        try (FileWriter writer = new FileWriter(filename, true)) {
-            writer.append(user.getId()).append(",").append(user.getUsername()).append("\n");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public User registerUser(String username) {
+        List<User> users = CSVReader.readUsers(USER_FILE);
+    
+        // Проверка существует ли пользователь
+        for (User user : users) {
+            if (user.getUsername().trim().equalsIgnoreCase(username.trim())) {
+                return user; 
+            }
         }
-    }
-
-    public static void writeRating(String filename, Rating rating) {
-        try (FileWriter writer = new FileWriter(filename, true)) {
-            writer.append(rating.getUserId()).append(",")
-                  .append(rating.getAlbumId()).append(",")
-                  .append(String.valueOf(rating.getRating())).append(",")
-                  .append(String.valueOf(rating.isListened())).append("\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    
+        // Новый пользователь
+        String id = UUID.randomUUID().toString();
+        User newUser = new User(id, username.trim());
+    
+        // запись
+        CSVWriter.writeUser(USER_FILE, newUser);
+        return newUser;
     }
 }
