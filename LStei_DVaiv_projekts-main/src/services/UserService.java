@@ -7,15 +7,15 @@ import utils.CSVReader;
 import utils.CSVWriter;
 
 public class UserService {
-    private final String USER_FILE = "users.csv";
+    private final String USER_FILE = "LStei_DVaiv_projekts-main\\src\\databases\\users.csv";
 
     public User registerUser(String username) {
         List<User> users = CSVReader.readUsers(USER_FILE);
     
-        // Проверка по username (без регистра и без пробелов)
+        // Проверка существует ли пользователь
         for (User user : users) {
             if (user.getUsername().trim().equalsIgnoreCase(username.trim())) {
-                return user; // пользователь уже существует
+                return user; 
             }
         }
     
