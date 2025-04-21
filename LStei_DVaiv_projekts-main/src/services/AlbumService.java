@@ -6,10 +6,10 @@ import models.Album;
 import utils.CSVReader;
 
 public class AlbumService {
-    private List<Album> albums;
+    private final List<Album> albums;
 
     public AlbumService() {
-        this.albums = CSVReader.readAlbums("albums.csv");
+        this.albums = CSVReader.readAlbums("LStei_DVaiv_projekts-main\\src\\databases\\albums.csv");
     }
 
     public List<Album> getAllAlbums() {
