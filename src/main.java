@@ -10,6 +10,22 @@ import services.UserService;
 public class main {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
+    
+            System.out.println("""
+
+              ██████  ▒█████   ███▄    █  ██▓ █    ██  ███▄ ▄███▓
+            ▒██    ▒ ▒██▒  ██▒ ██ ▀█   █ ▓██▒ ██  ▓██▒▓██▒▀█▀ ██▒
+            ░ ▓██▄   ▒██░  ██▒▓██  ▀█ ██▒▒██▒▓██  ▒██░▓██    ▓██░
+              ▒   ██▒▒██   ██░▓██▒  ▐▌██▒░██░▓▓█  ░██░▒██    ▒██ 
+            ▒██████▒▒░ ████▓▒░▒██░   ▓██░░██░▒▒█████▓ ▒██▒   ░██▒
+            ▒ ▒▓▒ ▒ ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒ ░▓  ░▒▓▒ ▒ ▒ ░ ▒░   ░  ░
+            ░ ░▒  ░ ░  ░ ▒ ▒░ ░ ░░   ░ ▒░ ▒ ░░░▒░ ░ ░ ░  ░      ░
+            ░  ░  ░  ░ ░ ░ ▒     ░   ░ ░  ▒ ░ ░░░ ░ ░ ░      ░   
+                  ░      ░ ░           ░  ░     ░            ░   
+                                                                 
+            
+            """);
+    
             AlbumService albumService = new AlbumService();
             RatingService ratingService = new RatingService();
             UserService userService = new UserService();
