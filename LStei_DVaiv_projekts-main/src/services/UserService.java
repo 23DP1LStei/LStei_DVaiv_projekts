@@ -7,7 +7,7 @@ import utils.CSVReader;
 import utils.CSVWriter;
 
 public class UserService {
-    private final String USER_FILE = "LStei_DVaiv_projekts-main\\src\\databases\\users.csv";
+    private final String USER_FILE = "src\\databases\\users.csv";
 
     public User registerUser(String username) {
         List<User> users = CSVReader.readUsers(USER_FILE);

@@ -10,7 +10,7 @@ public class RatingService {
     private final List<Rating> ratings;
 
     public RatingService() {
-        this.ratings = CSVReader.readRatings("LStei_DVaiv_projekts-main\\src\\databases\\ratings.csv");
+        this.ratings = CSVReader.readRatings("src\\databases\\ratings.csv");
     }
 
     public void markAsListened(String userId, String albumId) {
@@ -20,7 +20,7 @@ public class RatingService {
         } else {
             Rating rating = new Rating(userId, albumId, 0, true);
             ratings.add(rating);
-            CSVWriter.writeRating("LStei_DVaiv_projekts-main\\src\\databases\\ratings.csv", rating);
+            CSVWriter.writeRating("src\\databases\\ratings.csv", rating);
         }
     }
 
@@ -32,7 +32,7 @@ public class RatingService {
         } else {
             Rating rating = new Rating(userId, albumId, score, true);
             ratings.add(rating);
-            CSVWriter.writeRating("LStei_DVaiv_projekts-main\\src\\databases\\ratings.csv", rating);
+            CSVWriter.writeRating("src\\databases\\ratings.csv", rating);
         }
     }
 
@@ -53,7 +53,7 @@ public class RatingService {
         return total / albumRatings.size();
     }
 
-    private Rating findRating(String userId, String albumId) {
+    public Rating findRating(String userId, String albumId) {
         for (Rating rating : ratings) {
             if (rating.getUserId().equals(userId) && rating.getAlbumId().equals(albumId)) {
                 return rating;

@@ -20,6 +20,7 @@ public class main {
 
             // Регистрация 
             User currentUser = userService.registerUser(username);
+            
             System.out.println("Hi, " + currentUser.getUsername() + "!");
 
             while (true) {

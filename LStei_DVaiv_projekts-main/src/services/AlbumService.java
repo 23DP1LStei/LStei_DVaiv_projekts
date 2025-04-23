@@ -9,7 +9,7 @@ public class AlbumService {
     private final List<Album> albums;
 
     public AlbumService() {
-        this.albums = CSVReader.readAlbums("LStei_DVaiv_projekts-main\\src\\databases\\albums.csv");
+        this.albums = CSVReader.readAlbums("src\\databases\\albums.csv");
     }
 
     public List<Album> getAllAlbums() {
