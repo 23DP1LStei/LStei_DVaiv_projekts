@@ -7,7 +7,7 @@ import services.AlbumService;
 import services.RatingService;
 import services.UserService;
 
-public class main {
+public class sonium {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
     
