@@ -1,16 +1,15 @@
 package models;
 
 public class User {
-    private String id;
+    private final String id;
     private String username;
 
-    // Constructor
     public User(String id, String username) {
         this.id = id;
         this.username = username;
     }
 
-    // Getter
+    // Геттеры
     public String getId() {
         return id;
     }
@@ -19,7 +18,7 @@ public class User {
         return username;
     }
 
-    // Сеттер
+    // Сеттеры
     public void setUsername(String username) {
         this.username = username;
     }

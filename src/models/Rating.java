@@ -1,17 +1,20 @@
 package models;
 
+import java.time.LocalDateTime;
+
 public class Rating {
-    private String userId;
-    private String albumId;
+    private final String userId;
+    private final String albumId;
     private int rating; // от 1 до 5, 0 если не оценено
     private boolean listened;
+    private LocalDateTime dateAdded;
 
-    // Конструктор
-    public Rating(String userId, String albumId, int rating, boolean listened) {
+    public Rating(String userId, String albumId, int rating, boolean listened, LocalDateTime dateAdded) {
         this.userId = userId;
         this.albumId = albumId;
         this.rating = rating;
         this.listened = listened;
+        this.dateAdded = dateAdded;
     }
 
     // Геттеры
@@ -31,6 +34,10 @@ public class Rating {
         return listened;
     }
 
+    public LocalDateTime getDateAdded() {
+        return dateAdded;
+    }
+
     // Сеттеры
     public void setRating(int rating) {
         this.rating = rating;
@@ -40,8 +47,13 @@ public class Rating {
         this.listened = listened;
     }
 
+    public void setDateAdded(LocalDateTime dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
     @Override
     public String toString() {
-        return "User: " + userId + ", Album: " + albumId + ", Rating: " + rating + ", Listened: " + listened;
+        return "User: " + userId + ", Album: " + albumId + ", Rating: " + rating + 
+               ", Listened: " + listened + ", Added: " + dateAdded;
     }
 }

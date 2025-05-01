@@ -2,6 +2,8 @@ package utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import models.Album;
@@ -9,11 +11,13 @@ import models.Rating;
 import models.User;
 
 public class CSVReader {
+    
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     public static List<Album> readAlbums(String filename) {
         List<Album> albums = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            br.readLine(); // пропустить заголовок
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -49,7 +53,19 @@ public class CSVReader {
                 String albumId = parts[1];
                 int rating = Integer.parseInt(parts[2]);
                 boolean listened = Boolean.parseBoolean(parts[3]);
-                ratings.add(new Rating(userId, albumId, rating, listened));
+                
+                LocalDateTime dateAdded;
+                if (parts.length > 4) {
+                    try {
+                        dateAdded = LocalDateTime.parse(parts[4], DATE_FORMATTER);
+                    } catch (Exception e) {
+                        dateAdded = LocalDateTime.now();
+                    }
+                } else {
+                    dateAdded = LocalDateTime.now();
+                }
+                
+                ratings.add(new Rating(userId, albumId, rating, listened, dateAdded));
             }
         } catch (Exception e) {
         }
