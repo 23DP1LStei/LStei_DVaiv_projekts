@@ -134,22 +134,41 @@ public class sonium {
                         if (listened.isEmpty()) {
                             System.out.println("You haven't listened any albums yet.");
                         } else {
+                            
+                            final String RESET = "\u001B[0m";
+                            final String CYAN = "\u001B[36m";
+                            final String GREEN = "\u001B[32m";
+
+                            // Таблица
                             System.out.println("\nYour logged albums:");
+                            System.out.println("+--------------------------------------------------------------------------------------+");
+                            System.out.printf("| %-3s | %-25s | %-15s | %-6s | %-20s |\n", "#", "Title", "Artist", "Rating", "Date Added");
+                            System.out.println("+--------------------------------------------------------------------------------------+");
+
                             int counter = 1;
+                            boolean altColor = false;
                             for (Rating r : listened) {
                                 Album a = albumService.getAlbumById(r.getAlbumId());
                                 if (a == null) continue;
-                                
-                                StringBuilder info = new StringBuilder();
-                                info.append(counter++).append(". ");
-                                info.append(a.getTitle()).append(" (").append(a.getArtist()).append(")");
-                                if (r.getRating() > 0) {
-                                    info.append(" - Rating: ").append(r.getRating());
-                                }
-                                info.append(" - Added: ").append(r.getDateAdded().format(DATE_FORMAT));
-                                System.out.println(info.toString());
+
+                                String color = altColor ? GREEN : CYAN;
+                                String ratingStr = r.getRating() > 0 ? String.valueOf(r.getRating()) : "N/A";
+                                String dateStr = r.getDateAdded().format(DATE_FORMAT);
+
+                                String title = a.getTitle();
+                                if (title.length() > 25) title = title.substring(0, 22) + "...";
+
+                                String artist = a.getArtist();
+                                if (artist.length() > 15) artist = artist.substring(0, 12) + "...";
+
+                                System.out.printf(color + "| %-3d | %-25s | %-15s | %-6s | %-20s |" + RESET + "\n",
+                                                counter++, title, artist, ratingStr, dateStr);
+
+                                altColor = !altColor;
                             }
+                            System.out.println("+--------------------------------------------------------------------------------------+");
                         }
+                        
                     }
 
                     case "3" -> {
