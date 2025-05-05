@@ -12,6 +12,7 @@ public class RatingService {
     private final List<Rating> ratings;
     private final String RATINGS_FILE = "src\\databases\\ratings.csv";
     
+    
     // Сортировка
     public enum SortType {
         DATE_ADDED_ASC,
@@ -65,6 +66,7 @@ public class RatingService {
         return userRatings;
     }
 
+    // Вычесление средней оценки
     public double getAlbumAverageRating(String albumId) {
         List<Rating> albumRatings = ratings.stream()
                 .filter(r -> r.getAlbumId().equals(albumId) && r.getRating() > 0)
@@ -75,6 +77,7 @@ public class RatingService {
         double total = albumRatings.stream().mapToInt(Rating::getRating).sum();
         return total / albumRatings.size();
     }
+
 
     public Rating findRating(String userId, String albumId) {
         for (Rating rating : ratings) {

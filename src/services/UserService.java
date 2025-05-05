@@ -9,6 +9,7 @@ import utils.CSVWriter;
 public class UserService {
     private final String USER_FILE = "src\\databases\\users.csv";
 
+    // Регистрация 
     public User registerUser(String username) {
         List<User> users = CSVReader.readUsers(USER_FILE);
     
@@ -23,7 +24,7 @@ public class UserService {
         String id = UUID.randomUUID().toString();
         User newUser = new User(id, username.trim());
     
-        // запись
+        // запись в csv
         CSVWriter.writeUser(USER_FILE, newUser);
         return newUser;
     }

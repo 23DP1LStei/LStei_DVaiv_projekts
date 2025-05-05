@@ -23,17 +23,10 @@ public class AlbumService {
         return null;
     }
 
+    // Поиск по части названия
     public List<Album> searchAlbums(String query) {
         return albums.stream()
                 .filter(album -> album.getTitle().toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
-    }
-    public Album findAlbumById(String id) {
-        for (Album album : albums) {
-            if (album.getId().equals(id)) {
-                return album;
-            }
-        }
-        return null;
-    }
+    } 
 }
