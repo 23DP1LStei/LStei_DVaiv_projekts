@@ -167,8 +167,47 @@ public class sonium {
                                 altColor = !altColor;
                             }
                             System.out.println("+--------------------------------------------------------------------------------------+");
+                            
+                            // Add delete option
+                            System.out.println("\nOptions:");
+                            System.out.println("1. Delete an album from your list");
+                            System.out.println("2. Return to main menu");
+                            
+                            System.out.print("Choose: ");
+                            String albumAction = scanner.nextLine();
+                            
+                            if (albumAction.equals("1")) {
+                                System.out.print("Enter the number of the album to delete: ");
+                                try {
+                                    int deleteIndex = Integer.parseInt(scanner.nextLine()) - 1;
+                                    if (deleteIndex >= 0 && deleteIndex < listened.size()) {
+                                        Rating ratingToDelete = listened.get(deleteIndex);
+                                        Album albumToDelete = albumService.getAlbumById(ratingToDelete.getAlbumId());
+                                        
+                                        if (albumToDelete != null) {
+                                            System.out.println("Are you sure you want to delete \"" + 
+                                                albumToDelete.getTitle() + "\" by " + 
+                                                albumToDelete.getArtist() + " from your list? (y/n)");
+                                            
+                                            String confirm = scanner.nextLine().toLowerCase();
+                                            if (confirm.equals("y") || confirm.equals("yes")) {
+                                                if (ratingService.deleteAlbum(currentUser.getId(), ratingToDelete.getAlbumId())) {
+                                                    System.out.println("Album successfully deleted from your list!");
+                                                } else {
+                                                    System.out.println("Failed to delete the album.");
+                                                }
+                                            } else {
+                                                System.out.println("Deletion cancelled.");
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("Invalid album number.");
+                                    }
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Please enter a valid number.");
+                                }
+                            }
                         }
-                        
                     }
 
                     case "3" -> {

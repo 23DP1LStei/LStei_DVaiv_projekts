@@ -51,6 +51,16 @@ public class RatingService {
         }
     }
 
+    public boolean deleteAlbum(String userId, String albumId) {
+        Rating rating = findRating(userId, albumId);
+        if (rating != null) {
+            ratings.remove(rating);
+            CSVWriter.updateRatings(RATINGS_FILE, ratings);
+            return true;
+        }
+        return false;
+    }
+
     public List<Rating> getUserListenedAlbums(String userId, SortType sortType) {
         List<Rating> userRatings = ratings.stream()
                 .filter(r -> r.getUserId().equals(userId) && r.isListened())
