@@ -1,5 +1,6 @@
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import models.Album;
 import models.Rating;
@@ -48,7 +49,8 @@ public class sonium {
                 System.out.println("\nMenu");
                 System.out.println("1. Find an album");
                 System.out.println("2. My albums");
-                System.out.println("3. Quit");
+                System.out.println("3. Top 20 albums by local users");
+                System.out.println("4. Quit");
 
                 System.out.print("Choose: ");
                 String choice = scanner.nextLine();
@@ -209,8 +211,54 @@ public class sonium {
                             }
                         }
                     }
-
+                    
                     case "3" -> {
+                        // Топ 20 альбомов по средней оценке пользователей
+                        System.out.println("\nTop 20 Albums Rated by Local Users:");
+                        
+                        List<Map.Entry<String, Double>> topAlbums = ratingService.getTopRatedAlbums(20);
+                        
+                        if (topAlbums.isEmpty()) {
+                            System.out.println("No rated albums found.");
+                        } else {
+                            final String RESET = "\u001B[0m";
+                            final String YELLOW = "\u001B[33m";
+                            final String GREEN = "\u001B[32m";
+                            
+                            System.out.println("+--------------------------------------------------------------------------------------+");
+                            System.out.printf("| %-3s | %-25s | %-15s | %-22s |\n", "Rank", "Title", "Artist", "Average Rating");
+                            System.out.println("+--------------------------------------------------------------------------------------+");
+                            
+                            int rank = 1;
+                            boolean altColor = false;
+                            for (Map.Entry<String, Double> entry : topAlbums) {
+                                Album album = albumService.getAlbumById(entry.getKey());
+                                if (album == null) continue;
+                                
+                                String color = altColor ? GREEN : YELLOW;
+                                String avgRating = String.format("%.2f/5.00 (%d ratings)", 
+                                    entry.getValue(), 
+                                    (int) ratingService.getRatingCount(entry.getKey()));
+                                
+                                String title = album.getTitle();
+                                if (title.length() > 25) title = title.substring(0, 22) + "...";
+                                
+                                String artist = album.getArtist();
+                                if (artist.length() > 15) artist = artist.substring(0, 12) + "...";
+                                
+                                System.out.printf(color + "| %-3d | %-25s | %-15s | %-22s |" + RESET + "\n",
+                                        rank++, title, artist, avgRating);
+                                
+                                altColor = !altColor;
+                            }
+                            System.out.println("+--------------------------------------------------------------------------------------+");
+                            
+                            System.out.println("\nPress Enter to return to the main menu");
+                            scanner.nextLine();
+                        }
+                    }
+
+                    case "4" -> {
                         System.out.println("Bye-bye!!!");
                         return;
                     }

@@ -1,8 +1,11 @@
 package services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import models.Rating;
 import utils.CSVReader;
@@ -88,6 +91,30 @@ public class RatingService {
         return total / albumRatings.size();
     }
 
+    // топ альбомов локальными пользователями
+    public List<Map.Entry<String, Double>> getTopRatedAlbums(int limit) {
+        Map<String, List<Integer>> albumRatings = new HashMap<>();
+        
+        for (Rating rating : ratings) {
+            if (rating.getRating() > 0) {  // Учитываем только оцененные альбомы
+                albumRatings.computeIfAbsent(rating.getAlbumId(), k -> new ArrayList<>())
+                           .add(rating.getRating());
+            }
+        }
+        
+        Map<String, Double> albumAverages = new HashMap<>();
+        for (Map.Entry<String, List<Integer>> entry : albumRatings.entrySet()) {
+            List<Integer> ratings = entry.getValue();
+            double average = ratings.stream().mapToInt(Integer::intValue).average().orElse(0);
+            albumAverages.put(entry.getKey(), average);
+        }
+        
+        // sorting
+        return albumAverages.entrySet().stream()
+                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
 
     public Rating findRating(String userId, String albumId) {
         for (Rating rating : ratings) {
@@ -97,5 +124,10 @@ public class RatingService {
         }
         return null;
     }
-
+    
+    public long getRatingCount(String albumId) {
+        return ratings.stream()
+                .filter(r -> r.getAlbumId().equals(albumId) && r.getRating() > 0)
+                .count();
+    }
 }
