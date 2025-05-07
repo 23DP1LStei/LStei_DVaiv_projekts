@@ -4,13 +4,13 @@ public class Album {
     private final String id;
     private String title;
     private String artist;
-    private String genre;
+    private String country; // год
 
-    public Album(String id, String title, String artist, String genre) {
+    public Album(String id, String title, String artist, String country) {
         this.id = id;
         this.title = title;
         this.artist = artist;
-        this.genre = genre;
+        this.country = country;
     }
 
     public String getId() {
@@ -25,8 +25,8 @@ public class Album {
         return artist;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getCountry() {
+        return country;
     }
 
     public void setTitle(String title) {
@@ -37,13 +37,13 @@ public class Album {
         this.artist = artist;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     // Вывод
     @Override
     public String toString() {
-        return title + " by " + artist + " [" + genre + "]";
+        return title + " by " + artist + " (" + country + ")";
     }
 }

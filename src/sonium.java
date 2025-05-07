@@ -7,6 +7,7 @@ import models.Rating;
 import models.User;
 import services.AlbumService;
 import services.RatingService;
+import services.RatingService.DecadeFilter;
 import services.RatingService.SortType;
 import services.UserService;
 
@@ -213,20 +214,61 @@ public class sonium {
                     }
                     
                     case "3" -> {
-                        // Топ 20 альбомов по средней оценке пользователей
-                        System.out.println("\nTop 20 Albums Rated by Local Users:");
+                        // Меню выбора десятилетия
+                        System.out.println("\nTop 20 Albums Rated by Local Users");
+                        System.out.println("Choose decade filter:");
+                        System.out.println("1. All time");
+                        System.out.println("2. 1960s");
+                        System.out.println("3. 1970s");
+                        System.out.println("4. 1980s");
+                        System.out.println("5. 1990s");
+                        System.out.println("6. 2000s and later");
                         
-                        List<Map.Entry<String, Double>> topAlbums = ratingService.getTopRatedAlbums(20);
+                        System.out.print("Choose: ");
+                        String decadeChoice = scanner.nextLine();
+                        
+                        DecadeFilter decadeFilter;
+                        String decadeTitle;
+                        
+                        switch (decadeChoice) {
+                            case "2" -> {
+                                decadeFilter = DecadeFilter.SIXTIES;
+                                decadeTitle = "1960s";
+                            }
+                            case "3" -> {
+                                decadeFilter = DecadeFilter.SEVENTIES;
+                                decadeTitle = "1970s";
+                            }
+                            case "4" -> {
+                                decadeFilter = DecadeFilter.EIGHTIES;
+                                decadeTitle = "1980s";
+                            }
+                            case "5" -> {
+                                decadeFilter = DecadeFilter.NINETIES;
+                                decadeTitle = "1990s";
+                            }
+                            case "6" -> {
+                                decadeFilter = DecadeFilter.TWO_THOUSANDS;
+                                decadeTitle = "2000s and later";
+                            }
+                            default -> {
+                                decadeFilter = DecadeFilter.ALL;
+                                decadeTitle = "All time";
+                            }
+                        }
+                        
+                        List<Map.Entry<String, Double>> topAlbums = ratingService.getTopRatedAlbums(20, decadeFilter);
                         
                         if (topAlbums.isEmpty()) {
-                            System.out.println("No rated albums found.");
+                            System.out.println("No rated albums found for " + decadeTitle + ".");
                         } else {
                             final String RESET = "\u001B[0m";
                             final String YELLOW = "\u001B[33m";
                             final String GREEN = "\u001B[32m";
                             
+                            System.out.println("\nTop 20 Albums - " + decadeTitle + ":");
                             System.out.println("+--------------------------------------------------------------------------------------+");
-                            System.out.printf("| %-3s | %-25s | %-15s | %-22s |\n", "Rank", "Title", "Artist", "Average Rating");
+                            System.out.printf("| %-3s | %-25s | %-15s | %-8s | %-22s |\n", "Rank", "Title", "Artist", "Year", "Average Rating");
                             System.out.println("+--------------------------------------------------------------------------------------+");
                             
                             int rank = 1;
@@ -246,8 +288,10 @@ public class sonium {
                                 String artist = album.getArtist();
                                 if (artist.length() > 15) artist = artist.substring(0, 12) + "...";
                                 
-                                System.out.printf(color + "| %-3d | %-25s | %-15s | %-22s |" + RESET + "\n",
-                                        rank++, title, artist, avgRating);
+                                String year = album.getCountry(); 
+                                
+                                System.out.printf(color + "| %-3d | %-25s | %-15s | %-8s | %-22s |" + RESET + "\n",
+                                        rank++, title, artist, year, avgRating);
                                 
                                 altColor = !altColor;
                             }
