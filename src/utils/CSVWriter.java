@@ -43,21 +43,4 @@ public class CSVWriter {
         } catch (IOException e) {
         }
     }
-
-    public static void saveAllRatings(String filename, List<Rating> ratings) {
-        try {
-            try (FileWriter writer = new FileWriter(filename, false)) {
-                writer.append("userId,albumId,rating,listened\n");
-                
-                for (Rating rating : ratings) {
-                    writer.append(rating.getUserId()).append(",")
-                          .append(rating.getAlbumId()).append(",")
-                          .append(String.valueOf(rating.getRating())).append(",")
-                          .append(String.valueOf(rating.isListened())).append("\n");
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving ratings: " + e.getMessage());
-        }
-    }
 }
